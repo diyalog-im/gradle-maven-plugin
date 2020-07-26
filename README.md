@@ -23,7 +23,7 @@ at the <b>very bottom</b> of the *build.gradle* file. Alternatively, to use a sp
     
 and add this line to the very bottom of the *build.gradle* file:
 
-    apply from: "https://raw.githubusercontent.com/sky-uk/gradle-maven-plugin/${project.mavPluginVersion}/gradle-mavenizer.gradle"`
+    apply from: "https://raw.githubusercontent.com/diyalog-im/gradle-maven-plugin/${project.mavPluginVersion}/gradle-mavenizer.gradle"`
 
 ## <a name="customization"/>Customization
 GradleMavenizer is highly customizable.
@@ -58,6 +58,12 @@ _<b>Attention:</b> If you add the same property to the root project file and to 
     
 _<b>Attention:</b> If you won't set any repository automatically the script will use MavenLocal as default repo_
 
+
+* JavaDoc and Sources publish configuration
+  * <b>mavJavaDocPublishToRepo</b> _->  Boolean property -> Allow the script to load your java doc files to repo. Default value is true_
+  * <b>mavSourcesPublishToRepo</b> _->  Boolean property -> Allow the script to load your source codes to repo. Default value is true_
+  
+  
 ### <a name="examplePerModule"/>Example of per-module _build.gradle_ costumization
 
 ```
@@ -70,6 +76,8 @@ project.ext {
     mavRepoInternalUrl = "path/to/internal/repo"
     mavLibraryLicenses = ["Apache-2.0":'http://www.apache.org/licenses/LICENSE-2.0.txt']
     mavLibraryDescription = "A simple description of the project"
+    mavJavaDocPublishToRepo = true
+    mavSourcesPublishToRepo = false
 }
 ```
 

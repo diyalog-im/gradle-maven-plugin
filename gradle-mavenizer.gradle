@@ -1,22 +1,35 @@
 apply plugin: 'maven-publish'
 
 def gradlePluginVersion = project.hasProperty('mavPluginVersion') ? project.mavPluginVersion : 'master'
-apply from: "https://raw.githubusercontent.com/sky-uk/gradle-maven-plugin/${gradlePluginVersion}/utils.gradle"
-apply from: "https://raw.githubusercontent.com/sky-uk/gradle-maven-plugin/${gradlePluginVersion}/artifact-javadoc-handler.gradle"
-apply from: "https://raw.githubusercontent.com/sky-uk/gradle-maven-plugin/${gradlePluginVersion}/artifact-pom-manager.gradle"
+apply from: "https://raw.githubusercontent.com/diyalog-im/gradle-maven-plugin/${gradlePluginVersion}/utils.gradle"
+apply from: "https://raw.githubusercontent.com/diyalog-im/gradle-maven-plugin/${gradlePluginVersion}/artifact-javadoc-handler.gradle"
+apply from: "https://raw.githubusercontent.com/diyalog-im/gradle-maven-plugin/${gradlePluginVersion}/artifact-pom-manager.gradle"
 
 project.afterEvaluate {
     publishing {
         publications {
+          def isJavaDocPublishToRepo = project.hasProperty("mavJavaDocPublishToRepo") ? project.getProperty("mavJavaDocPublishToRepo") : true
+          def isSourcesPublishToRepo = project.hasProperty("mavSourcesPublishToRepo") ? project.getProperty("mavSourcesPublishToRepo") : true
+          
             mavenPublish(MavenPublication) {
                 if (isAndroidProject()) {
+                    
                     artifact bundleReleaseAar
-                    artifact androidJavadocsJar
-                    artifact androidSourcesJar
+                      
+                    if (isJavaDocPublishToRepo)
+                      artifact androidJavadocsJar
+                      
+                    if (isSourcesPublishToRepo)  
+                      artifact androidSourcesJar
+                      
                 } else {
                     artifact jar
-                    artifact sourcesJar
-                    artifact javadocJar
+
+                    if (isJavaDocPublishToRepo)
+                      artifact sourcesJar
+                      
+                    if (isSourcesPublishToRepo)  
+                      artifact javadocJar
                 }
                 
                 decoratePom(pom)
